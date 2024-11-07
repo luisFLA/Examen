@@ -10,7 +10,7 @@ namespace Examen
             {
                 Asignatura asignatura = new Asignatura();
 
-                // Ingresar datos del alumno
+                
                 Console.Write("Ingrese nombre del alumno: ");
                 asignatura.NombreAlumno = Console.ReadLine();
 
@@ -20,7 +20,7 @@ namespace Examen
                 Console.Write("Ingrese correo electrónico: ");
                 asignatura.Email = Console.ReadLine();
 
-                // Ingresar datos de la asignatura
+                
                 Console.Write("Ingrese nombre de la clase: ");
                 asignatura.NombreAsignatura = Console.ReadLine();
 
@@ -30,29 +30,45 @@ namespace Examen
                 Console.Write("Ingrese nombre del docente: ");
                 asignatura.NombreDocente = Console.ReadLine();
 
-                // Ingresar y validar notas
-                Console.Write("Ingrese nota del primer parcial: ");
-                asignatura.N1 = int.Parse(Console.ReadLine());
-                if (asignatura.N1 > 30)
-                    throw new Exception("La nota del primer parcial sobrepasa del 30%");
+                
+                asignatura.N1 = SolicitarNota("primer", 30);
+                asignatura.N2 = SolicitarNota("segundo", 30);
+                asignatura.N3 = SolicitarNota("tercer", 40);
 
-                Console.Write("Ingrese nota del segundo parcial: ");
-                asignatura.N2 = int.Parse(Console.ReadLine());
-                if (asignatura.N2 > 30)
-                    throw new Exception("La nota del segundo parcial sobrepasa del 30%");
-
-                Console.Write("Ingrese nota del tercer parcial: ");
-                asignatura.N3 = int.Parse(Console.ReadLine());
-                if (asignatura.N3 > 40)
-                    throw new Exception("La nota del tercer parcial sobrepasa del 40%");
-
-                // Imprimir resultados
                 asignatura.Imprimir();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Ocurrió un error: " + ex.Message);
             }
+        }
+
+      
+        static int SolicitarNota(string nombreParcial, int maxNota)
+        {
+            int nota;
+            while (true)
+            {
+                try
+                {
+                    Console.Write($"Ingrese nota del {nombreParcial} parcial (máximo {maxNota}%): ");
+                    nota = int.Parse(Console.ReadLine());
+
+                    if (nota >= 0 && nota <= maxNota)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"La nota del {nombreParcial} parcial debe estar entre 0 y {maxNota}. Inténtelo de nuevo.");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Formato de entrada inválido. Por favor, ingrese un número entero.");
+                }
+            }
+            return nota;
         }
     }
 }
